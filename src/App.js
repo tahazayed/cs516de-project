@@ -9,7 +9,7 @@ import Education from './components/Education';
 import Blog from './components/Blog';
 import Footer from './components/Footer';
 import Contact from './components/Contact';
-import './App.css';
+
 
 function App() {
   return (
