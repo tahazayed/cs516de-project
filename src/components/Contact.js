@@ -1,128 +1,209 @@
 import React, { useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
 import axios from 'axios';
-import { TailSpin } from 'react-loader-spinner';
-import '../Contact.css'; // Ensure you import the CSS file
-
-const validationSchema = Yup.object({
-  messageTitle: Yup.string().required('Required'),
-  message: Yup.string().required('Required'),
-  email: Yup.string().email('Invalid email address').required('Required'),
-  guestName: Yup.string().required('Required'),
-  phone: Yup.string()
-});
 
 function Contact() {
   const [loading, setLoading] = useState(false);
-  const formik = useFormik({
-    initialValues: {
-      messageTitle: '',
-      message: '',
-      email: '',
-      guestName: '',
-      phone: ''
-    },
-    validationSchema,
-    onSubmit: async (values, { setSubmitting, setStatus }) => {
-      setLoading(true);
-      try {
-        const response = await axios.post('https://api.tahaelsayed.click/v1/contactme', values);
-        setStatus({ success: 'Contact form submitted successfully' });
-      } catch (error) {
-        setStatus({ error: 'Failed to submit contact form' });
-      } finally {
-        setLoading(false);
-        setSubmitting(false);
-      }
-    }
+  const [formData, setFormData] = useState({
+    messageTitle: '',
+    message: '',
+    email: '',
+    guestName: '',
+    phone: '',
   });
+  const [errors, setErrors] = useState({});
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.messageTitle) newErrors.messageTitle = 'Message Title is required';
+    if (!formData.message) newErrors.message = 'Message is required';
+    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.guestName) newErrors.guestName = 'Guest Name is required';
+    // Simple email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.email && !emailRegex.test(formData.email)) newErrors.email = 'Invalid email address';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (!validateForm()) return;
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post('https://api.tahaelsayed.click/v1/contactme', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        setFormData({
+          messageTitle: '',
+          message: '',
+          email: '',
+          guestName: '',
+          phone: '',
+        });
+        alert('Message sent successfully!');
+      } else {
+        alert('Failed to send message.');
+      }
+    } catch (error) {
+      alert('An error occurred while sending the message.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <section id="contact">
-      <h2>Contact Me</h2>
-      {loading && (
-        <div className="loading-overlay">
-          <TailSpin height="50" width="50" color="white" ariaLabel="loading" />
+    <div className="section" id="contact">
+      <div className="cc-contact-information">
+        <div className="container">
+          <div className="cc-contact">
+            <div className="row">
+              <div className="col-md-9">
+                <div className="card mb-0" data-aos="zoom-in">
+                  <div className="h4 text-center title">Contact Me</div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="card-body">
+                        <form onSubmit={handleSubmit}>
+                          <div className="p pb-3">
+                            <strong>Feel free to contact me </strong>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <div className="input-group">
+                                <span className="input-group-addon">
+                                  <i className="fa fa-file-text"></i>
+                                </span>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="messageTitle"
+                                  placeholder="Message Title"
+                                  value={formData.messageTitle}
+                                  onChange={handleChange}
+                                  required
+                                />
+                                {errors.messageTitle && <div className="text-danger">{errors.messageTitle}</div>}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <div className="form-group">
+                                <textarea
+                                  className="form-control"
+                                  name="message"
+                                  placeholder="Your Message"
+                                  value={formData.message}
+                                  onChange={handleChange}
+                                  required
+                                ></textarea>
+                                {errors.message && <div className="text-danger">{errors.message}</div>}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <div className="input-group">
+                                <span className="input-group-addon">
+                                  <i className="fa fa-envelope"></i>
+                                </span>
+                                <input
+                                  className="form-control"
+                                  type="email"
+                                  name="email"
+                                  placeholder="E-mail"
+                                  value={formData.email}
+                                  onChange={handleChange}
+                                  required
+                                />
+                                {errors.email && <div className="text-danger">{errors.email}</div>}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <div className="input-group">
+                                <span className="input-group-addon">
+                                  <i className="fa fa-user-circle"></i>
+                                </span>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="guestName"
+                                  placeholder="Guest Name"
+                                  value={formData.guestName}
+                                  onChange={handleChange}
+                                  required
+                                />
+                                {errors.guestName && <div className="text-danger">{errors.guestName}</div>}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row mb-3">
+                            <div className="col">
+                              <div className="input-group">
+                                <span className="input-group-addon">
+                                  <i className="fa fa-phone"></i>
+                                </span>
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="phone"
+                                  placeholder="Phone (Optional)"
+                                  value={formData.phone}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div className="row">
+                            <div className="col">
+                              <button className="btn btn-primary" type="submit" disabled={loading}>
+                                {loading ? 'Sending...' : 'Send'}
+                              </button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="card-body">
+                        <p className="mb-0">
+                          <strong>Address</strong>
+                        </p>
+                        <p className="pb-2">Florence, Kentucky, U.S.A</p>
+                        <p className="mb-0">
+                          <strong>Phone</strong>
+                        </p>
+                        <p className="pb-2">+1 641-233-9470</p>
+                        <p className="mb-0">
+                          <strong>Email</strong>
+                        </p>
+                        <p>taha.elsayed04@outlook.com</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      )}
-      <form onSubmit={formik.handleSubmit}>
-        <label htmlFor="messageTitle">Message Title</label>
-        <input
-          id="messageTitle"
-          name="messageTitle"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.messageTitle}
-        />
-        {formik.touched.messageTitle && formik.errors.messageTitle ? (
-          <div>{formik.errors.messageTitle}</div>
-        ) : null}
-
-        <label htmlFor="message">Message</label>
-        <textarea
-          id="message"
-          name="message"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.message}
-        />
-        {formik.touched.message && formik.errors.message ? (
-          <div>{formik.errors.message}</div>
-        ) : null}
-
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.email}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <div>{formik.errors.email}</div>
-        ) : null}
-
-        <label htmlFor="guestName">Guest Name</label>
-        <input
-          id="guestName"
-          name="guestName"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.guestName}
-        />
-        {formik.touched.guestName && formik.errors.guestName ? (
-          <div>{formik.errors.guestName}</div>
-        ) : null}
-
-        <label htmlFor="phone">Phone (Optional)</label>
-        <input
-          id="phone"
-          name="phone"
-          type="text"
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={formik.values.phone}
-        />
-        {formik.touched.phone && formik.errors.phone ? (
-          <div>{formik.errors.phone}</div>
-        ) : null}
-
-        <button type="submit" disabled={formik.isSubmitting || loading}>
-          Submit
-        </button>
-
-        {formik.status && formik.status.success && (
-          <div style={{ color: 'green' }}>{formik.status.success}</div>
-        )}
-        {formik.status && formik.status.error && (
-          <div style={{ color: 'red' }}>{formik.status.error}</div>
-        )}
-      </form>
-    </section>
+      </div>
+    </div>
   );
 }
 

@@ -2,8 +2,13 @@ import React from 'react';
 
 function Blog() {
   return (
-    <section id="blog">
-      <h2>Blog</h2>
+ <div className="section" id="blog">
+  <div className="container">
+    <div className="card" data-aos="fade-up" data-aos-offset="10">
+      <div className="row">
+        <div className="col-lg-6 col-md-12">
+          <div className="card-body">
+            <div className="h4 mt-0 title">Azure Container Apps (ACA), KEDA, and DAPR for KeyVault</div>
       <article>
         <h3>Azure Container Apps (ACA), KEDA, and DAPR for KeyVault</h3>
         <p><em>by Taha Elsayed</em></p>
@@ -198,7 +203,7 @@ getSecret();
           Azure Container Apps, KEDA, and DAPR together provide a powerful and flexible platform for building, deploying, and managing modern cloud-native applications. Leveraging these tools can significantly enhance your development workflow and ensure your applications are scalable, resilient, and secure.
         </p>
       </article>
-    </section>
+    </div></div></div></div></div></div>
   );
 }
 
