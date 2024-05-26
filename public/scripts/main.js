@@ -6,6 +6,17 @@ $(document).ready(function() {
     // uncomment below for on-scroll animations to played only once
     // once: true  
   }); // initialize animate on scroll library
+  $('#download-link').on('click', function(event) {
+    event.preventDefault(); // Prevent the default action
+
+    var url = $(this).attr('href');
+    var link = $('<a>');
+    link.attr('href', url);
+    link.attr('download', 'Taha_Elsayed.pdf'); // You can specify the file name
+    $('body').append(link);
+    link[0].click();
+    link.remove();
+});
 });
 
 // Smooth scroll for links with hashes
