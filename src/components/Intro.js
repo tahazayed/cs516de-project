@@ -20,6 +20,9 @@ function Intro() {
             <i className="fa fa-linkedin">
               </i>
               </a>
+              <a className="btn btn-default btn-round btn-lg btn-icon" href="https://github.com/tahazayed" rel="noreferrer tooltip" title="Follow me on GitHub" target="_blank">
+               <i className="fa fa-github"></i>
+              </a>              
               <a className="btn btn-default btn-round btn-lg btn-icon" href="https://x.com/tahaamin" rel="noreferrer tooltip" title="Follow me on Twitter" target="_blank">
                 <i className="fa fa-twitter">
               </i>
