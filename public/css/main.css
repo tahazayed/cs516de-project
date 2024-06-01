@@ -5284,3 +5284,10 @@ a.credit {
 /* Common Style */
 .section {
   padding-bottom: 0; }
+
+.link-style {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+  display: inline-block;
+}
