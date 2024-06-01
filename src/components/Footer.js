@@ -16,7 +16,7 @@ function Footer() {
         </div>
         <div className="h4 title text-center">Taha Elsayed</div>
         <div class="text-center text-muted">
-        <p>&copy; Creative CV. All rights reserved.<br/>Design - <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
+        <p>&copy; Creative CV. All rights reserved.<br/>Design - <a class="credit" href="https://templateflip.com" target="_blank"  rel="noreferrer">TemplateFlip</a></p>
       </div>
       </footer>
   );
