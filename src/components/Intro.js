@@ -8,7 +8,7 @@ function Intro() {
       <div className="page-header-image" data-parallax="true" style={{backgroundImage: "url('images/cc-bg-1.jpg')"}}></div>
       <div className="container">
         <div className="content-center">
-          <div className="cc-profile-image"><a href="#"><img src="images/taha.jpg" alt="Taha Elsayed"/></a></div>
+          <div className="cc-profile-image"><span className="link-style"><img src="images/taha.jpg" alt="Taha Elsayed"/></span></div>
           <div className="h2 title">Taha Elsayed</div>
           <p className="category text-white">Technical Architect</p><a className="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a><a className="btn btn-primary" href="Taha_Elsayed.pdf" data-aos="zoom-in" data-aos-anchor="data-aos-anchor" id="download-link">Download CV</a>
         </div>
